@@ -2,6 +2,7 @@ import discord
 from discord.ext import commands
 import random
 from botcommandvariables import *
+from secret import *
 intents = discord.Intents.default()
 intents.message_content = True
 intents.members = True
@@ -147,6 +148,7 @@ async def on_message(message):
         else:
             return
     await bot.process_commands(message)
+
 @bot.command(pass_context = True,
     help = 'get the guild ID for the server the bot is on',
     brief = 'get guild ID information for the server'
@@ -155,6 +157,7 @@ async def serverid(ctx):
     id = ctx.message.guild.id
     await ctx.message.delete()
     await ctx.message.send(id)
+
 @bot.command(
 	# ADDS THIS VALUE TO THE $HELP PING MESSAGE.
 	help="Uses come crazy logic to determine if pong is actually the correct value or not.",
@@ -164,12 +167,14 @@ async def serverid(ctx):
 async def ping(ctx):
 	# SENDS A MESSAGE TO THE CHANNEL USING THE CONTEXT OBJECT.
 	await ctx.channel.send("pong")
+
 @bot.command(
     help='more crazy logic for pong this time.',
     brief='prints ping to the channel'
 )
 async def pong(ctx):
     await ctx.channel.send('ping')
+
 @bot.command(pass_context = True, 
     help='picks a random joke by doing some math. Note that it was never said they would be good jokes.',
     brief='dont panic, the fazbot--he will tell you a joke.'
@@ -179,6 +184,7 @@ async def joke(ctx):
     rj = random.choice(jokes_copy)
     jokes_copy = jokes_copy.remove(rj)
     await ctx.channel.send(rj)
+
 @bot.command(
     help='posts a picture of the OG fazdad',
     brief='for when you want a picture of freddy'
@@ -189,6 +195,7 @@ async def freddy(ctx):
     freddyfotos_copy = freddyfotos_copy.remove(rff)
     await ctx.message.delete()
     await ctx.channel.send(rff)
+
 @bot.command(
     help='post a picture of chica',
     brief='for when you wanna look at a pizza obsessed chicken(or maybe markiplier\'s dog?)'
@@ -199,6 +206,7 @@ async def chica(ctx):
     chicafotos_copy = chicafotos_copy.remove(rcf)
     await ctx.message.delete()
     await ctx.channel.send(rcf)
+
 @bot.command(
     help='posts a picture of foxy',
     brief='I feel like you should understand this at this point.'
@@ -209,6 +217,7 @@ async def foxy(ctx):
     foxyfotos_copy = foxyfotos_copy.remove(rfx)
     await ctx.message.delete()
     await ctx.channel.send(rfx)
+
 @bot.command(
     help='posts a picture of bonnie',
     brief='Bonnie the bunny. From FNAF. As a photo.'
@@ -219,6 +228,7 @@ async def bonnie(ctx):
     bonniefotos_copy = bonniefotos_copy.remove(rbf)
     await ctx.message.delete()
     await ctx.channel.send(rbf)
+
 @bot.command(
     help='posts a photo from the fnaf/afton nonsense.',
     brief='fnaf + afton = fnafton or something.'
@@ -229,13 +239,18 @@ async def fnafton(ctx):
     fnaftonfotos_copy = fnaftonfotos_copy.remove(rfa)
     await ctx.message.delete()
     await ctx.channel.send(rfa)
+
 @bot.command(
     help='this posts my good morning message because fazdad is fazforgetful.',
     brief='a daily reminder for yous'
 )
 async def morning(ctx):
+    morning_copy = morningmessages.copy()
+    res = random.choice(morning_copy)
+    morning_copy = morning_copy.remove(res)
     await ctx.message.delete()
-    await ctx.channel.send('Good morning, my faztastic ~~followers~~ friends! Here is your reminder to hydrate, medicate, masticate, and meditate!')
+    await ctx.channel.send(res)
+
 @bot.command(
     help='jim',
     brief="Jim."
@@ -245,6 +260,7 @@ async def jim(ctx):
     randomjim = random.choice(jim_copy)
     jim_copy = jim_copy.remove(randomjim)
     await ctx.channel.send(randomjim)
+
 @bot.command(
     help = 'log a drink! even just a glass of water! The world is yours for the taking!',
     brief = 'keep track of your liquid intake however you see fit.'
@@ -257,6 +273,7 @@ async def cheers(ctx):
     with open(f'cheerstokelog{serverid}.txt', 'a') as log:
         log.write(f'Drink logged by {ctx.message.author} in {ctx.message.guild} \n')
     await ctx.channel.send(randomcheers)
+
 @bot.command(
     help='one for the drinks means one for the tokes.',
     brief='log them hits, baybeeeee.'
@@ -269,6 +286,7 @@ async def toke(ctx):
     with open(f'cheerstokelog{serverid}.txt', 'a') as log:
         log.write(f'Toke logged by {ctx.message.author} in {ctx.message.guild} \n')
     await ctx.channel.send(randomtoke)
+
 @bot.command(
     help = 'doot or be dooted',
     brief = 'spooky'
@@ -276,6 +294,7 @@ async def toke(ctx):
 async def doot(ctx):
     await ctx.message.delete()
     await ctx.channel.send('🎺💀🎺')
+
 @bot.command(
     help = 'this gives the total "drinks" had in the server since the last time the log was cleared',
     brief = 'how much has the server had? fazbot can and will tell you.'
@@ -285,6 +304,7 @@ async def welit(ctx):
     with open(f'cheerstokelog{serverid}.txt') as log:
         drinks = len(log.readlines())
     await ctx.channel.send(f'{ctx.message.guild} has {drinks} entries so far! Leggo.')
+
 @bot.command(
     help = 'this will show you how many drinks/tokes *you* have had in the server you use the command in',
     brief = 'how much have you had? find out here!'
@@ -301,6 +321,7 @@ async def melit(ctx):
     with open(f'memberlog{member}.txt') as log:
         memberdrinkcount = len(log.readlines())
     await ctx.channel.send(f'You have {memberdrinkcount} entries so far, {ctx.message.author.mention}')
+
 @bot.command(
     help = 'Give a suggestion for bot things [$suggest (suggestions-separated by comma)]',
     brief = 'got an idea? gimme.'
@@ -312,6 +333,7 @@ async def suggest(ctx, *args):
         suggestions.write(f'{args} suggested by: {member}. \n ')
     await ctx.message.delete()
     await ctx.channel.send('Thanks, friend! Your suggestion has been added to the list!')
+
 @bot.command(
     help = 'Show the current suggestions on the list!',
     brief = 'Wanna know if a suggestion has been made already?'
@@ -322,6 +344,7 @@ async def suggestlist(ctx):
         for line in list.readlines():
             suggestlist = suggestlist + line
     await ctx.channel.send(f'Currently listed suggestions: {suggestlist}')
+
 @bot.command(
     help = 'clears the server drink log',
     brief = 'start the drinking over from 0!'
@@ -339,16 +362,14 @@ async def closingtime(ctx):
         with open(f'memberlog{member}.txt', 'w') as log:
             log.write('')
     await ctx.channel.send(f'{ctx.message.author.mention} has cleared the tracker for {ctx.message.guild}! Time to refill it!')
+
 @bot.command(
     help = 'this just tells you how to use the bot kinda sorta',
     brief = 'how does this thing work, anyway?'
 )
 async def how(ctx):
-    with open('secret.txt') as help:
-        helplist = ''
-        for line in help.readlines():
-            helplist = helplist + line
-    await ctx.channel.send(f' Here you go, {ctx.message.author.mention} : {helplist}')
+    await ctx.channel.send(f' Here you go, {ctx.message.author.mention} : {howto}')
+
 @bot.command(
     help='I scream, you scream...',
     brief='for when you just have to scream.'
@@ -356,6 +377,7 @@ async def how(ctx):
 async def screm(ctx):
     await ctx.message.delete()
     await ctx.channel.send('https://thumbs.gfycat.com/AcademicAltruisticEft-max-1mb.gif111111111111')
+
 @bot.command(
     help = 'posts a reaction image',
     brief = 'for when you really just have so many questions'
@@ -363,6 +385,7 @@ async def screm(ctx):
 async def wut(ctx):
     await ctx.message.delete()
     await ctx.channel.send("https://cdn.discordapp.com/attachments/1008951081918804069/1016520836674498560/f51cb9884e4060bdfc195fc244985a0d.jpg")
+
 @bot.command(
     help = 'prints the entered values back to the channel [$print -text to echo-]',
     brief = '$print *insert words here*'
@@ -372,6 +395,7 @@ async def print(ctx, *args):
 	for arg in args:
 		response = response + " " + arg
 	await ctx.channel.send(response)
+
 @bot.command(
     help = 'invite a friend (or Gamzee) for games! [$games @usertotag(optional)]',
     brief = 'is that a homestuck reference?'
@@ -388,7 +412,7 @@ async def games(ctx, member=None):
     help = 'clean up the last 1-50 messages! Default value is 5 messages! [$purge (#)]',
     brief = 'easy clean-up.'
 )
-async def purgeall(ctx, amount=5, name='purge all'):
+async def purge(ctx, amount=5):
     admins = [300075623458668544, 380829848932843531, 461210610261295105]
     if ctx.message.author.id not in admins:
         await ctx.message.delete()
@@ -399,4 +423,4 @@ async def purgeall(ctx, amount=5, name='purge all'):
         amount += 1 
         await ctx.channel.purge(limit=amount)
 
-bot.run(bottoken)
+bot.run('MTAxMzQ0NjAyMTEzNDY4ODM0Nw.Gz7EQB.8m6mdypap3Z4PRjdt4xmgrnPBW9AGzBd4SDVJE')
