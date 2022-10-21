@@ -1,8 +1,10 @@
+from sqlite3 import SQLITE_CREATE_TEMP_TABLE
 import discord
 from discord.ext import commands
 import random
 from botcommandvariables import *
 from secret import *
+from bottoken import *
 intents = discord.Intents.default()
 intents.message_content = True
 intents.members = True
@@ -423,4 +425,4 @@ async def purge(ctx, amount=5):
         amount += 1 
         await ctx.channel.purge(limit=amount)
 
-bot.run('MTAxMzQ0NjAyMTEzNDY4ODM0Nw.Gz7EQB.8m6mdypap3Z4PRjdt4xmgrnPBW9AGzBd4SDVJE')
+bot.run(secret)
